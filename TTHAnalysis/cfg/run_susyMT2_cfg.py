@@ -353,6 +353,8 @@ if test==0:
 
     json='/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/DCSOnly/json_DCSONLY.txt'
 
+    dataDir = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/data"
+
     from CMGTools.TTHAnalysis.setup.Efficiencies import *
 
     for comp in samples:
