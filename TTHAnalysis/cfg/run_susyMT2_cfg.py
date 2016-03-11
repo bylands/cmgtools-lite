@@ -337,7 +337,7 @@ from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 # choose 3 for data production
 # choose 4 for signal production
 #test = int(getHeppyOption('test',1))
-test = 0
+test = 01
 isData = False # will be changed accordingly if chosen to run on data
 doSpecialSettingsForMECCA = 1 # set to 1 for comparisons with americans
 runPreprocessor = False
@@ -351,9 +351,9 @@ if test==0:
     testComponent = kreator.makeMCComponent("testComponent", "/GJets_HT-200to400_Tune4C_13TeV-madgraph-tauola/Phys14DR-PU20bx25_PHYS14_25_V1-v1/MINIAODSIM", "CMS", ".*root",489.9)
     samples=[testComponent]
 
-    json='/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/DCSOnly/json_DCSONLY.txt'
-
-    dataDir = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/data"
+   dataDir = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/data
+"
+   json='/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/DCSOnly/json_DCSONLY.txt'
 
     from CMGTools.TTHAnalysis.setup.Efficiencies import *
 
