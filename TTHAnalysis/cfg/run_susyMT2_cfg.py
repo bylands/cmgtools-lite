@@ -346,14 +346,17 @@ if test==0:
     # ------------------------------------------------------------------------------------------- #
     # --- all this lines taken from CMGTools.RootTools.samples.samples_13TeV_PHYS14
     # --- They may not be in synch anymore 
+
+    from CMGTools.RootTools.samples.samples_13TeV_RunIIFall15MiniAODv2 import *
+
     from CMGTools.RootTools.samples.ComponentCreator import ComponentCreator
     kreator = ComponentCreator()
     testComponent = kreator.makeMCComponent("testComponent", "/GJets_HT-200to400_Tune4C_13TeV-madgraph-tauola/Phys14DR-PU20bx25_PHYS14_25_V1-v1/MINIAODSIM", "CMS", ".*root",489.9)
     samples=[testComponent]
 
-   dataDir = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/data
-"
-   json='/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/DCSOnly/json_DCSONLY.txt'
+    dataDir = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/data"
+
+    json='/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/DCSOnly/json_DCSONLY.txt'
 
     from CMGTools.TTHAnalysis.setup.Efficiencies import *
 
