@@ -377,7 +377,7 @@ if test==0:
     # comp.files = ['root://eoscms.cern.ch//eos/cms/store/mc/RunIIFall15MiniAODv2/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/002253C9-DFB8-E511-8B0A-001A648F1C42.root']
 
     # 76X GJets
-    comp.files = ['root://eoscms.cern.ch//eos/cms/store/mc/Phys14DR/GJets_HT-200to400_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/060B8ED3-8571-E411-A2CD-002590D0AFEA.root','root://eoscms.cern.ch//eos/cms/store/mc/Phys14DR/GJets_HT-200to400_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/0822A147-8671-E411-AABB-20CF3019DF17.root']
+    comp.files = ['root://eoscms.cern.ch//eos/cms/store/mc/RunIIFall15MiniAODv2/GJets_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/20000/1A1ED685-D5BD-E511-9FBA-0025905C2D98.root','root://eoscms.cern.ch//eos/cms/store/mc/RunIIFall15MiniAODv2/GJets_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/20000/38046A39-D5BD-E511-94D6-0025905C9726.root']
 
     # 747 Data
     #comp.files = ['/afs/cern.ch/user/m/mangano/public/MECCA/dataset/74X/data/JetHT_promptReco_Run2015B.root']
