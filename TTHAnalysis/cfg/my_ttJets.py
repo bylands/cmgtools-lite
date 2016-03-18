@@ -48,12 +48,12 @@ lepAna.ele_tightId = "Cuts_PHYS14_25ns_v1_ConvVetoDxyDz"
 lepAna.notCleaningElectrons = True
 lepAna.doMiniIsolation = True
 lepAna.miniIsolationPUCorr = 'rhoArea'
-#lepAna.ele_effectiveAreas = 'Phys14_25ns_v1'              #what we used with SnT       
+#lepAna.ele_effectiveAreas = 'Phys14_25ns_v1'              #what we used with SnT
 #lepAna.mu_effectiveAreas = 'Phys14_25ns_v1'               #what we used with SnT
-lepAna.ele_effectiveAreas = 'Spring15_25ns_v1'             #new default 
+lepAna.ele_effectiveAreas = 'Spring15_25ns_v1'             #new default
 lepAna.mu_effectiveAreas = 'Spring15_25ns_v1'              #new default
-#lepAna.rhoMuon= 'fixedGridRhoFastjetAll',                  #what we used with SnT       
-#lepAna.rhoElectron = 'fixedGridRhoFastjetAll',             #what we used with SnT   
+#lepAna.rhoMuon= 'fixedGridRhoFastjetAll',                  #what we used with SnT
+#lepAna.rhoElectron = 'fixedGridRhoFastjetAll',             #what we used with SnT
 lepAna.rhoMuon= 'fixedGridRhoFastjetCentralNeutral',      #new default
 lepAna.rhoElectron = 'fixedGridRhoFastjetCentralNeutral', #new default
 
@@ -87,7 +87,7 @@ jetAna.jetEtaCentral = 2.5
 jetAna.jetPt = 10.
 jetAna.mcGT     = "Fall15_25nsV2_MC" # jec corrections
 jetAna.dataGT   = "Fall15_25nsV2_DATA" # jec corrections
-jetAna.recalibrateJets = True # True
+jetAna.recalibrateJets = False # True
 jetAna.applyL2L3Residual = True # 'Data'
 jetAna.calculateSeparateCorrections = True
 jetAna.jetLepDR = 0.4
@@ -99,7 +99,7 @@ jetAna.cleanJetsFromFirstPhoton = True
 jetAna.cleanJetsFromIsoTracks = True ## added for Dominick
 jetAna.calculateType1METCorrection = True
 
-# TAU 
+# TAU
 tauAna.inclusive_ptMin = 20.0
 tauAna.inclusive_etaMax = 2.3
 tauAna.inclusive_dxyMax = 99999.
@@ -128,7 +128,7 @@ isoTrackAna.setOff=False
 isoTrackAna.doIsoAnnulus = True
 
 # recalibrate MET
-metAna.recalibrate = 'type1'
+metAna.recalibrate = False
 metAna.old74XMiniAODs = False # get right Raw MET on old 74X MiniAODs
 
 # store all taus by default
@@ -141,9 +141,9 @@ ttHCoreEventAna.jetPt = mt2JPt ### jet pt 30: this will change ht and mht
 # switch off the SV and MC matching
 #ttHSVAna.do_mc_match = False
 
-##------------------------------------------ 
+##------------------------------------------
 ##  CONTROL VARIABLES
-##------------------------------------------ 
+##------------------------------------------
 
 from CMGTools.TTHAnalysis.analyzers.ttHMT2Control import ttHMT2Control
 
@@ -188,7 +188,7 @@ MT2AnaNoHF = cfg.Analyzer(
 ##------------------------------------------
 
 from CMGTools.TTHAnalysis.analyzers.ttHmllSkimmer import ttHmllSkimmer
-# Tree Producer                                                                                                                                                                         
+# Tree Producer
 ttHZskim = cfg.Analyzer(
             ttHmllSkimmer, name='ttHmllSkimmer',
             lepId=[13],
@@ -212,9 +212,9 @@ hbheFilterAna = cfg.Analyzer(
 
 
 from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_HT900, triggers_HT800, triggers_AllMET170, triggers_HT350_MET100, triggers_HT350_MET120
-from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_MT2_mumu, triggers_MT2_ee, triggers_MT2_e, triggers_MT2_mu, triggers_MT2_emu, triggers_MT2_mue 
+from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_MT2_mumu, triggers_MT2_ee, triggers_MT2_e, triggers_MT2_mu, triggers_MT2_emu, triggers_MT2_mue
 from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_dijet, triggers_dijet70met120, triggers_dijet55met110, triggers_HT350, triggers_HT475,  triggers_HT600
-from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_photon75, triggers_photon90, triggers_photon120, triggers_photon75ps 
+from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_photon75, triggers_photon90, triggers_photon120, triggers_photon75ps
 from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_photon90ps, triggers_photon120ps, triggers_photon155, triggers_photon165_HE10, triggers_photon175
 from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_met90_mht90, triggers_metNoMu90_mhtNoMu90, triggers_metNoMu120_mhtNoMu120, triggers_Jet80MET90
 from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import triggers_doubleele33, triggers_mumu_noniso
@@ -346,7 +346,7 @@ runPreprocessor = False
 if test==0:
     # ------------------------------------------------------------------------------------------- #
     # --- all this lines taken from CMGTools.RootTools.samples.samples_13TeV_PHYS14
-    # --- They may not be in synch anymore 
+    # --- They may not be in synch anymore
 
     from CMGTools.RootTools.samples.samples_13TeV_RunIIFall15MiniAODv2 import *
 
@@ -364,7 +364,7 @@ if test==0:
     for comp in samples:
 #        comp.isMC = True
 #        comp.isData = False
-        comp.splitFactor = 250 
+        comp.splitFactor = 250
         comp.puFileMC=dataDir+"/puProfile_Summer12_53X.root"
         comp.puFileData=dataDir+"/puProfile_Data12.root"
         comp.efficiency = eff2012
@@ -375,7 +375,7 @@ if test==0:
     #sequence = cfg.Sequence([eventSelector] + sequence)
     comp=testComponent
     # 76X TTbar
-    comp.files = ['root://eoscms.cern.ch//eos/cms/store/mc/RunIIFall15MiniAODv2/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/002253C9-DFB8-E511-8B0A-001A648F1C42.root','root://eoscms.cern.ch//eos/cms/store/mc/RunIIFall15MiniAODv2/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/02271920-DAB8-E511-995D-0025904B5F8C.root']
+    comp.files = ['root://eoscms.cern.ch//eos/cms/store/mc/RunIIFall15MiniAODv2/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/00D010B5-1EB9-E511-B950-02163E014965.root']
 
     # 76X GJets
     # comp.files = ['root://eoscms.cern.ch//eos/cms/store/mc/Phys14DR/GJets_HT-200to400_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/060B8ED3-8571-E411-A2CD-002590D0AFEA.root']
@@ -396,7 +396,7 @@ elif test==1:
     # Uncomment the two following lines to run on a specific event
     #eventSelector.toSelect = [ 84142401 ]
     #sequence = cfg.Sequence([eventSelector] + sequence)
-    
+
 #    from CMGTools.RootTools.samples.samples_13TeV_RunIISpring15MiniAODv2 import *
     from CMGTools.RootTools.samples.samples_13TeV_RunIIFall15MiniAODv2 import *
 
@@ -416,7 +416,7 @@ elif test==2:
 
     #from CMGTools.TTHAnalysis.samples.samples_13TeV_PHYS14 import *
     # full production
-#    selectedComponents = [ 
+#    selectedComponents = [
 #TTJets, # TTJets
 #TToLeptons_tch, TToLeptons_sch, TBarToLeptons_tch, TBarToLeptons_sch, TBar_tWch, T_tWch, #singleTop
 #TTWJets, TTZJets, TTH, #TT+boson
@@ -432,19 +432,19 @@ elif test==2:
 
 #    from CMGTools.RootTools.samples.samples_13TeV_74X import *
 #### 25 ns
-##    selectedComponents = [ 
+##    selectedComponents = [
 ##TTJets, TTJets_LO, # TTJets
 ##QCD_Pt80to120, QCD_Pt120to170, QCD_Pt300to470, QCD_Pt470to600, QCD_Pt1000to1400, QCD_Pt1400to1800, QCD_Pt1800to2400, QCD_Pt2400to3200, QCD_Pt3200toInf, # QCD_Pt
 ##]
 #
-#### 25    
+#### 25
 ##    selectedComponents = [DYJetsToLL_M50_Zpt150toInf_LO]
 #
 #    selectedComponents = ZJetsToNuNuHT + DYJetsM50HT + QCDPt + QCDHT + [
 #TTJets_SingleLeptonFromT, TTJets_SingleLeptonFromTbar, TTJets_DiLepton,
-#TTV, TToLeptons_tch, TbarToLeptons_tch, 
+#TTV, TToLeptons_tch, TbarToLeptons_tch,
 #TTJets_LO,
-##                                                                                                                                                                      
+##
 #GJets_HT100to200,
 #GJets_HT200to400,
 #GJets_HT400to600,
@@ -462,7 +462,7 @@ elif test==2:
 #        #comp.fineSplitFactor = 2 # to run two jobs per file
 #        comp.files = comp.files[:]
 #        #comp.files = comp.files[:1]
-#        #comp.files = comp.files[57:58]  # to process only file [57]  
+#        #comp.files = comp.files[57:58]  # to process only file [57]
 #        # triggers on MC
 #        #comp.triggers = triggers_HT900 + triggers_HTMET + triggers_photon155 + triggers_1mu_isolow + triggers_MT2_mumu + triggers_MT2_ee + triggers_MT2_mue # to apply trigger skimming
 
@@ -475,7 +475,7 @@ elif test==2:
         #comp.fineSplitFactor = 2 # to run two jobs per file
         comp.files = comp.files[:]
         #comp.files = comp.files[:1]
-        #comp.files = comp.files[57:58]  # to process only file [57]  
+        #comp.files = comp.files[57:58]  # to process only file [57]
         # triggers on MC
         #comp.triggers = triggers_HT900 + triggers_HTMET + triggers_photon155 + triggers_1mu_isolow + triggers_MT2_mumu + triggers_MT2_ee + triggers_MT2_mue # to apply trigger skimming
 
@@ -492,19 +492,19 @@ elif test==3:
     #comp.files = ['root://eoscms.cern.ch//eos/cms/store/data/Run2015B/JetHT/MINIAOD/PromptReco-v1/000/251/643/00000/0AF95D60-992C-E511-8D36-02163E0146A4.root']
     #selectedComponents = [comp]
 
-    selectedComponents = dataSamples_Run2015C_16Dec + [ SingleElectron_Run2015D_16Dec, SingleMuon_Run2015D_16Dec, DoubleEG_Run2015D_16Dec, MuonEG_Run2015D_16Dec, DoubleMuon_Run2015D_16Dec ] 
-    
+    selectedComponents = dataSamples_Run2015C_16Dec + [ SingleElectron_Run2015D_16Dec, SingleMuon_Run2015D_16Dec, DoubleEG_Run2015D_16Dec, MuonEG_Run2015D_16Dec, DoubleMuon_Run2015D_16Dec ]
+
     for comp in selectedComponents:
         comp.json=json
         comp.files=comp.files[:]
-        
+
 elif test==4:
 
     from CMGTools.RootTools.samples.samples_13TeV_signals import *
 
 ### 25
     selectedComponents = + SignalSUSY + SignalEXO #+ SignalSUSYFullScan ###Signal Spring15
-    
+
     # test all components (1 thread per component).
     for comp in selectedComponents:
         comp.splitFactor = 1200
@@ -537,7 +537,7 @@ if isData:
 # ------------------------------------------------------------------------------------------- #
 
 
-from PhysicsTools.HeppyCore.framework.services.tfile import TFileService 
+from PhysicsTools.HeppyCore.framework.services.tfile import TFileService
 output_service = cfg.Service(
       TFileService,
       'outputfile',
