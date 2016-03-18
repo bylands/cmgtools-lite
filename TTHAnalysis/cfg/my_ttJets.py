@@ -86,10 +86,10 @@ jetAna.jetEta = 4.7
 jetAna.jetEtaCentral = 2.5
 jetAna.jetPt = 10.
 jetAna.mcGT     = "Fall15_25nsV2_MC" # jec corrections
-jetAna.dataGT   = "Summer15_25nsV6_DATA" # jec corrections
-jetAna.recalibrateJets = False # True
-jetAna.applyL2L3Residual = False # 'Data'
-jetAna.calculateSeparateCorrections = False
+jetAna.dataGT   = "Fall15_25nsV2_DATA" # jec corrections
+jetAna.recalibrateJets = True # True
+jetAna.applyL2L3Residual = True # 'Data'
+jetAna.calculateSeparateCorrections = True
 jetAna.jetLepDR = 0.4
 jetAna.smearJets = False
 jetAna.jetGammaDR = 0.4
@@ -97,6 +97,7 @@ jetAna.minGammaPt = 20.
 jetAna.gammaEtaCentral = 2.4
 jetAna.cleanJetsFromFirstPhoton = True
 jetAna.cleanJetsFromIsoTracks = True ## added for Dominick
+jetAna.calculateType1METCorrection = True
 
 # TAU 
 tauAna.inclusive_ptMin = 20.0
@@ -127,7 +128,7 @@ isoTrackAna.setOff=False
 isoTrackAna.doIsoAnnulus = True
 
 # recalibrate MET
-metAna.recalibrate = False
+metAna.recalibrate = 'type1'
 metAna.old74XMiniAODs = False # get right Raw MET on old 74X MiniAODs
 
 # store all taus by default
