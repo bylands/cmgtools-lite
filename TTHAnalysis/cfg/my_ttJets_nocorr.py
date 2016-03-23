@@ -97,6 +97,7 @@ jetAna.minGammaPt = 20.
 jetAna.gammaEtaCentral = 2.4
 jetAna.cleanJetsFromFirstPhoton = True
 jetAna.cleanJetsFromIsoTracks = True ## added for Dominick
+#jetAna.calculateType1METCorrection = False
 
 # TAU 
 tauAna.inclusive_ptMin = 20.0
@@ -404,8 +405,8 @@ elif test==1:
 
     selectedComponents = [TTJets_LO]
     for comp in selectedComponents:
-        comp.files = comp.files[:1]
-        comp.splitFactor = 1
+        comp.files = ['root://xrootd.unl.edu//store/mc/RunIIFall15MiniAODv2/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/00D010B5-1EB9-E511-B950-02163E014965.root']
+        comp.splitFactor = 1200
 
 
 elif test==2:
@@ -462,9 +463,9 @@ elif test==2:
 #        # triggers on MC
 #        #comp.triggers = triggers_HT900 + triggers_HTMET + triggers_photon155 + triggers_1mu_isolow + triggers_MT2_mumu + triggers_MT2_ee + triggers_MT2_mue # to apply trigger skimming
 
-    from CMGTools.RootTools.samples.samples_13TeV_RunIIFall15MiniAODv2 import *
+    from CMGTools.RootTools.samples.samples_13TeV_RunIIFall15MiniAODv2 import ZGammaSig
 ### 25 ns
-    selectedComponents = []
+    selectedComponents = ZGammaSig
 
     for comp in selectedComponents:
         comp.splitFactor = 1200
