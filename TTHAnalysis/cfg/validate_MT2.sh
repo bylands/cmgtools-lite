@@ -81,7 +81,7 @@ fi
 
 ### Here one should specify the weightes used to rescale the events in one or both samples ### 
 cat <<EOF > $outputFolder/inputs.txt
-ttHWW   : $labelB : 1.*puWeight*weight_btagsf*weight_lepsf*weight_isr ; FillColor=ROOT.kOrange+10 , Label="$labelB"
+ttHWW   : $labelB : 1.*puWeight*weight_lepsf*weight_btagsf*weight_isr ; FillColor=ROOT.kOrange+10 , Label="$labelB"
 ref_ttHWW+ : $labelA : 1. ; FillColor=ROOT.kAzure+2, Label="$labelA"
 EOF
 
@@ -89,10 +89,16 @@ EOF
 cd ../python/plotter/
 
 if [[ "$isDataMC" == "-data" ]]; then
-    python mcPlots.py -f --tree mt2  -P $workingDir/$outputFolder  $workingDir/$outputFolder/inputs.txt susy-mT2/validation_MT2.txt susy-mT2/validation_plots_MT2.data.txt --pdir $workingDir/$outputFolder/plots -p ref_ttHWW,ttHWW  -u -e --plotmode=norm --showRatio --maxRatioRange 0.65 1.35 --flagDifferences --toleranceForDiff 0.005
+    cat susy-mT2/validation_plots_MT2_common.txt susy-mT2/validation_plots_MT2_data.txt > susy-mT2/validation_plots_MT2
+    python mcPlots.py -f --tree mt2  -P $workingDir/$outputFolder  $workingDir/$outputFolder/inputs.txt susy-mT2/validation_MT2.txt susy-mT2/validation_plots_MT2 --pdir $workingDir/$outputFolder/plots -p ref_ttHWW,ttHWW  -u -e --plotmode=norm --showRatio --maxRatioRange 0.65 1.35 --flagDifferences --toleranceForDiff 0.005
 elif [[ "$isDataMC" == "-mc" ]]; then
-    python mcPlots.py -f --tree mt2  -P $workingDir/$outputFolder  $workingDir/$outputFolder/inputs.txt susy-mT2/validation_MT2.txt susy-mT2/validation_plots_MT2.txt --pdir $workingDir/$outputFolder/plots -p ref_ttHWW,ttHWW  -e --plotmode=norm --showRatio --maxRatioRange 0.65 1.35 --flagDifferences --toleranceForDiff 0.005
+    echo "processing -mc"
+    cat susy-mT2/validation_plots_MT2_common.txt susy-mT2/validation_plots_MT2_mc.txt > susy-mT2/validation_plots_MT2   
+    python mcPlots.py -f --tree mt2  -P $workingDir/$outputFolder  $workingDir/$outputFolder/inputs.txt susy-mT2/validation_MT2.txt susy-mT2/test.txt --pdir $workingDir/$outputFolder/plots -p ref_ttHWW,ttHWW  -e --plotmode=norm --showRatio --maxRatioRange 0.65 1.35 --flagDifferences --toleranceForDiff 0.005
 fi;
+
+echo "Cleaning up ..."
+rm susy-mT2/validation_plots_MT2
 
 cd $OLDPWD
 

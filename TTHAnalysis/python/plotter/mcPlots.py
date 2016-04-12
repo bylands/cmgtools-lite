@@ -2,6 +2,7 @@
 #from mcAnalysis import *
 from CMGTools.TTHAnalysis.plotter.mcAnalysis import *
 import itertools
+import math
 
 if "/bin2Dto1Dlib_cc.so" not in ROOT.gSystem.GetLibraries():
     ROOT.gROOT.ProcessLine(".L %s/src/CMGTools/TTHAnalysis/python/plotter/bin2Dto1Dlib.cc+" % os.environ['CMSSW_BASE']);
@@ -369,7 +370,7 @@ def doNormFit(pspec,pmap,mca,saveScales=False):
     pspec.setLog("Fitting", fitlog)
     
 
-def doRatioHists(pspec,pmap,total,totalSyst,maxRange,fitRatio=None,errorsOnRef=True):
+def doRatioHists(pspec,pmap,total,totalSyst,maxRange,fitRatio=None,errorsOnRef=True,plotmode="stack"):
     numkey = "data" 
     if "data" not in pmap: 
         if len(pmap) == 4 and 'signal' in pmap and 'background' in pmap:
@@ -384,18 +385,74 @@ def doRatioHists(pspec,pmap,total,totalSyst,maxRange,fitRatio=None,errorsOnRef=T
         else:    
             return (None,None,None,None)
     ratio = None
+    
+    # Former version without option for normalized ratio histogram
+    # 
+    # if hasattr(pmap[numkey], 'poissonGraph'):
+    #     ratio = pmap[numkey].poissonGraph.Clone("data_div")
+    # 
+    #     for i in xrange(ratio.GetN()):
+    #         x    = ratio.GetX()[i]
+    #         div = total.GetBinContent(total.GetXaxis().FindBin(x))
+    # 
+    #         if plotmode == "norm":
+    #             div  = div*ratio.Integral()/total.Integral()
+    #         
+    #         ratio.SetPoint(i, x, ratio.GetY()[i]/div if div > 0 else 0)
+    #
+    # Does the error calculation make sense?
+    #         ratio.SetPointError(i, ratio.GetErrorXlow(i), ratio.GetErrorXhigh(i), 
+    #                                ratio.GetErrorYlow(i)/div  if div > 0 else 0, 
+    #                                ratio.GetErrorYhigh(i)/div if div > 0 else 0)
+
     if hasattr(pmap[numkey], 'poissonGraph'):
-        ratio = pmap[numkey].poissonGraph.Clone("data_div"); 
+        ratio = ROOT.TGraphAsymmErrors(pmap[numkey])
+        
+        
+        totint = total.Integral()
+        ratint = 0.
+        
         for i in xrange(ratio.GetN()):
             x    = ratio.GetX()[i]
-            div  = total.GetBinContent(total.GetXaxis().FindBin(x))
+            ratint = ratint + ratio.GetY()[i]
+                
+        for i in xrange(ratio.GetN()):
+            x    = ratio.GetX()[i]
+            div = total.GetBinContent(total.GetXaxis().FindBin(x))
+                
+            aval = ratio.GetY()[i]
+            avalsq = aval*aval
+            bval = total.GetBinContent(i+1)
+            bvalsq = bval*bval
+            aerrlow = ratio.GetErrorYlow(i)
+            aerrlowsq = aerrlow*aerrlow
+            aerrhigh = ratio.GetErrorYhigh(i)
+            aerrhighsq = aerrhigh*aerrhigh
+            berrlow = total.GetBinError(i+1)
+            berrlowsq = berrlow*berrlow
+            berrhigh = total.GetBinError(i+1)
+            berrhighsq = berrhigh*berrhigh
+                        
+            errylow = math.sqrt(bvalsq*aerrlowsq+avalsq*berrlowsq)/bvalsq if bvalsq > 0 else 0
+            erryhigh = math.sqrt(bvalsq*aerrhighsq+avalsq*berrhighsq)/bvalsq if bvalsq > 0 else 0
+            
+            div = div*ratint/totint if plotmode == "norm" else div
+
             ratio.SetPoint(i, x, ratio.GetY()[i]/div if div > 0 else 0)
+            
+            div = ratint/totint if plotmode == "norm" else 1
             ratio.SetPointError(i, ratio.GetErrorXlow(i), ratio.GetErrorXhigh(i), 
-                                   ratio.GetErrorYlow(i)/div  if div > 0 else 0, 
-                                   ratio.GetErrorYhigh(i)/div if div > 0 else 0) 
+                                   errylow/div  if div > 0 else 0, 
+                                   erryhigh/div  if div > 0 else 0)
+        
+        
     else:
-        ratio = pmap[numkey].Clone("data_div"); 
+        ratio = pmap[numkey].Clone("data_div")
+        if plotmode == "norm":
+            total.Scale(ratio.Integral()/total.Integral())
+                        
         ratio.Divide(total)
+
     unity  = totalSyst.Clone("sim_div");
     unity0 = total.Clone("sim_div");
     rmin, rmax =  1,1
@@ -806,7 +863,7 @@ class PlotMaker:
                     if "TH1" in new.ClassName():
                         for b in xrange(1,new.GetNbinsX()+1):
                             if abs(new.GetBinContent(b) - ref.GetBinContent(b)) > options.toleranceForDiff*ref.GetBinContent(b):
-                                print "Plot: difference found in %s, bin %d" % (pspec.name, b)
+                                #print "Plot: difference found in %s, bin %d" % (pspec.name, b)
                                 p1.SetFillColor(ROOT.kYellow-10)
                                 if p2: p2.SetFillColor(ROOT.kYellow-10)
                                 break
@@ -814,7 +871,7 @@ class PlotMaker:
                 rdata,rnorm,rnorm2,rline = (None,None,None,None)
                 if doRatio:
                     p2.cd(); 
-                    rdata,rnorm,rnorm2,rline = doRatioHists(pspec,pmap,total,totalSyst, maxRange=options.maxRatioRange, fitRatio=options.fitRatio, errorsOnRef=options.errorBandOnRatio)
+                    rdata,rnorm,rnorm2,rline = doRatioHists(pspec,pmap,total,totalSyst, maxRange=options.maxRatioRange, fitRatio=options.fitRatio, errorsOnRef=options.errorBandOnRatio, plotmode=self._options.plotmode)
                 if self._options.printPlots:
                     for ext in self._options.printPlots.split(","):
                         fdir = self._options.printDir;
