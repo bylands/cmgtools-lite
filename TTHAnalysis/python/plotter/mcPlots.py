@@ -386,64 +386,66 @@ def doRatioHists(pspec,pmap,total,totalSyst,maxRange,fitRatio=None,errorsOnRef=T
             return (None,None,None,None)
     ratio = None
     
-    # Former version without option for normalized ratio histogram
-    # 
-    # if hasattr(pmap[numkey], 'poissonGraph'):
-    #     ratio = pmap[numkey].poissonGraph.Clone("data_div")
-    # 
-    #     for i in xrange(ratio.GetN()):
-    #         x    = ratio.GetX()[i]
-    #         div = total.GetBinContent(total.GetXaxis().FindBin(x))
-    # 
-    #         if plotmode == "norm":
-    #             div  = div*ratio.Integral()/total.Integral()
-    #         
-    #         ratio.SetPoint(i, x, ratio.GetY()[i]/div if div > 0 else 0)
-    #
-    # Does the error calculation make sense?
-    #         ratio.SetPointError(i, ratio.GetErrorXlow(i), ratio.GetErrorXhigh(i), 
-    #                                ratio.GetErrorYlow(i)/div  if div > 0 else 0, 
-    #                                ratio.GetErrorYhigh(i)/div if div > 0 else 0)
-
+    Former version without option for normalized ratio histogram
+    
     if hasattr(pmap[numkey], 'poissonGraph'):
-        ratio = ROOT.TGraphAsymmErrors(pmap[numkey])
-        
-        
-        totint = total.Integral()
-        ratint = 0.
-        
-        for i in xrange(ratio.GetN()):
-            x    = ratio.GetX()[i]
-            ratint = ratint + ratio.GetY()[i]
-                
+        ratio = pmap[numkey].poissonGraph.Clone("data_div")
+    
         for i in xrange(ratio.GetN()):
             x    = ratio.GetX()[i]
             div = total.GetBinContent(total.GetXaxis().FindBin(x))
-                
-            aval = ratio.GetY()[i]
-            avalsq = aval*aval
-            bval = total.GetBinContent(i+1)
-            bvalsq = bval*bval
-            aerrlow = ratio.GetErrorYlow(i)
-            aerrlowsq = aerrlow*aerrlow
-            aerrhigh = ratio.GetErrorYhigh(i)
-            aerrhighsq = aerrhigh*aerrhigh
-            berrlow = total.GetBinError(i+1)
-            berrlowsq = berrlow*berrlow
-            berrhigh = total.GetBinError(i+1)
-            berrhighsq = berrhigh*berrhigh
-                        
-            errylow = math.sqrt(bvalsq*aerrlowsq+avalsq*berrlowsq)/bvalsq if bvalsq > 0 else 0
-            erryhigh = math.sqrt(bvalsq*aerrhighsq+avalsq*berrhighsq)/bvalsq if bvalsq > 0 else 0
+    
+            if plotmode == "norm":
+                div  = div*ratio.Integral()/total.Integral()
             
-            div = div*ratint/totint if plotmode == "norm" else div
-
             ratio.SetPoint(i, x, ratio.GetY()[i]/div if div > 0 else 0)
-            
-            div = ratint/totint if plotmode == "norm" else 1
+    
+    Does the error calculation make sense?
             ratio.SetPointError(i, ratio.GetErrorXlow(i), ratio.GetErrorXhigh(i), 
-                                   errylow/div  if div > 0 else 0, 
-                                   erryhigh/div  if div > 0 else 0)
+                                   ratio.GetErrorYlow(i)/div  if div > 0 else 0, 
+                                   ratio.GetErrorYhigh(i)/div if div > 0 else 0)
+
+    # Alternative version: error for ration calculated from 'signal' and 'background'
+    #
+    # if hasattr(pmap[numkey], 'poissonGraph'):
+    #     ratio = ROOT.TGraphAsymmErrors(pmap[numkey])
+    #     
+    #     
+    #     totint = total.Integral()
+    #     ratint = 0.
+    #     
+    #     for i in xrange(ratio.GetN()):
+    #         x    = ratio.GetX()[i]
+    #         ratint = ratint + ratio.GetY()[i]
+    #             
+    #     for i in xrange(ratio.GetN()):
+    #         x    = ratio.GetX()[i]
+    #         div = total.GetBinContent(total.GetXaxis().FindBin(x))
+    #             
+    #         aval = ratio.GetY()[i]
+    #         avalsq = aval*aval
+    #         bval = total.GetBinContent(i+1)
+    #         bvalsq = bval*bval
+    #         aerrlow = ratio.GetErrorYlow(i)
+    #         aerrlowsq = aerrlow*aerrlow
+    #         aerrhigh = ratio.GetErrorYhigh(i)
+    #         aerrhighsq = aerrhigh*aerrhigh
+    #         berrlow = total.GetBinError(i+1)
+    #         berrlowsq = berrlow*berrlow
+    #         berrhigh = total.GetBinError(i+1)
+    #         berrhighsq = berrhigh*berrhigh
+    #                     
+    #         errylow = math.sqrt(bvalsq*aerrlowsq+avalsq*berrlowsq)/bvalsq if bvalsq > 0 else 0
+    #         erryhigh = math.sqrt(bvalsq*aerrhighsq+avalsq*berrhighsq)/bvalsq if bvalsq > 0 else 0
+    #         
+    #         div = div*ratint/totint if plotmode == "norm" else div
+    # 
+    #         ratio.SetPoint(i, x, ratio.GetY()[i]/div if div > 0 else 0)
+    #         
+    #         div = ratint/totint if plotmode == "norm" else 1
+    #         ratio.SetPointError(i, ratio.GetErrorXlow(i), ratio.GetErrorXhigh(i), 
+    #                                errylow/div  if div > 0 else 0, 
+    #                                erryhigh/div  if div > 0 else 0)
         
         
     else:
@@ -741,7 +743,8 @@ class PlotMaker:
                             plot.SetFillStyle(0)
                             if self._options.plotmode == "norm" and (plot.ClassName()[:2] == "TH"):
                                 ref = pmap['data'].Integral() if 'data' in pmap else 1.0
-                                plot.Scale(ref/plot.Integral())
+                                if plot.Integral() > 0:
+                                    plot.Scale(ref/plot.Integral())
                             stack.Add(plot)
                             total.SetMaximum(max(total.GetMaximum(),1.3*plot.GetMaximum()))
                         if self._options.errors and self._options.plotmode != "stack":
