@@ -252,7 +252,7 @@ susyFullHad_globalVariables = susyCore_globalVariables + [
     NTupleVariable("zllmt_mass", lambda ev : ev.zllmt_p4.M() if ev.zllmt_p4.P()!=0 else -999., help="Invariant mass of di-lepton system"),
     NTupleVariable("zllmt_minMTBMet", lambda ev: ev.zllmt_minMTBMet, float, help="min Mt(b,met) for zll, same as in main search"),
     NTupleVariable("zllmt_mt", lambda ev: ev.zllmt_mt, float, help="Mt(l,met) for zll (1 lepton only)"),
-
+    # NTupleVariable("genRecoil_pt", lambda ev: sum([j.pt() for j in ev.genrecoils]), float, help="Total pt of genRecoil events"),
     ###
 ]
 

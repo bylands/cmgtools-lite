@@ -386,8 +386,6 @@ def doRatioHists(pspec,pmap,total,totalSyst,maxRange,fitRatio=None,errorsOnRef=T
             return (None,None,None,None)
     ratio = None
     
-    Former version without option for normalized ratio histogram
-    
     if hasattr(pmap[numkey], 'poissonGraph'):
         ratio = pmap[numkey].poissonGraph.Clone("data_div")
     
@@ -400,7 +398,6 @@ def doRatioHists(pspec,pmap,total,totalSyst,maxRange,fitRatio=None,errorsOnRef=T
             
             ratio.SetPoint(i, x, ratio.GetY()[i]/div if div > 0 else 0)
     
-    Does the error calculation make sense?
             ratio.SetPointError(i, ratio.GetErrorXlow(i), ratio.GetErrorXhigh(i), 
                                    ratio.GetErrorYlow(i)/div  if div > 0 else 0, 
                                    ratio.GetErrorYhigh(i)/div if div > 0 else 0)
