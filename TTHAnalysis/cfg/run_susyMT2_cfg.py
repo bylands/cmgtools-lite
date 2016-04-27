@@ -375,7 +375,11 @@ if test==0:
     #eventSelector.toSelect = [ 442430994 ]
     #sequence = cfg.Sequence([eventSelector] + sequence)
     comp=testComponent
-    # 74X TTbar
+    # 74X T1tttt
+    # comp.files = ['root://xrootd.unl.edu//store/mc/RunIISpring15MiniAODv2/SMS-T1tttt_mGluino-1475to1500_mLSP-1to1250_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/FastAsympt25ns_74X_mcRun2_asymptotic_v2-v1/80000/0A932556-637E-E511-9E4E-002590DB923E.root']
+
+    # 76X TTJets synch file (miniAOD v2)
+    #isData = False
     comp.files = ['root://xrootd.unl.edu//store/mc/RunIIFall15MiniAODv2/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/00D010B5-1EB9-E511-B950-02163E014965.root']
 
     # 74X GJets

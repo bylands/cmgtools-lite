@@ -7,6 +7,7 @@ susyFullHad_globalVariables = susyCore_globalVariables + [
     ##--------------------------------------------------
 ##    NTupleVariable("genQScale", lambda ev : ev.genQScale, help="Generator level binning quantity, QScale"),
     NTupleVariable("LHEweight_original", lambda ev: ev.LHE_originalWeight if  hasattr(ev,'LHE_originalWeight') else  0, mcOnly=True, help="original LHE weight"),
+    NTupleVariable("genRecoil_pt", lambda ev: ev.GenRecoil_pt, float, help="total pt of particles with status 62"),
 
 #    ##--------------------------------------------------
 #    ## MET filter information (temporary)
@@ -252,7 +253,6 @@ susyFullHad_globalVariables = susyCore_globalVariables + [
     NTupleVariable("zllmt_mass", lambda ev : ev.zllmt_p4.M() if ev.zllmt_p4.P()!=0 else -999., help="Invariant mass of di-lepton system"),
     NTupleVariable("zllmt_minMTBMet", lambda ev: ev.zllmt_minMTBMet, float, help="min Mt(b,met) for zll, same as in main search"),
     NTupleVariable("zllmt_mt", lambda ev: ev.zllmt_mt, float, help="Mt(l,met) for zll (1 lepton only)"),
-    # NTupleVariable("genRecoil_pt", lambda ev: sum([j.pt() for j in ev.genrecoils]), float, help="Total pt of genRecoil events"),
     ###
 ]
 
